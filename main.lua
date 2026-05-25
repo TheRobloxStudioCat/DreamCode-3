@@ -1,4 +1,4 @@
-local scr_code = require("libraries.scratchcode.main")
+local dreamCode = require("libraries.dreamcode.main")
 
 local window_eng = require("libraries.graphics")
 
@@ -19,7 +19,7 @@ local cursor_img = love.mouse.newCursor("images/cursor.png")
 local history = {}
 local history_v = 0
 
-local title = "ScratchCode 3.0 VM and Compiler toolkit"
+local title = "DreamCode 3.0 VM and Compiler toolkit"
 
 local graphics_mode = false
 
@@ -43,7 +43,7 @@ end
 
 local console_font = love.graphics.newFont("fonts/lucidaconsole.ttf")
 
-local console = "ScratchCode 3.0 VM and Compiler console\nType 'help' to see all of the commands.\n"
+local console = "DreamCode 3.0 VM and Compiler console\nType 'help' to see all of the commands.\n"
 
 local cursor = "_"
 
@@ -95,11 +95,11 @@ local commands = {
     end,
 
     ["about"] = function ()
-        cons_print("ScratchCode 3.0\n\nMemory usage: %f\n\nScratchCode isn`t related to the Scratch programming language.\nThis software is open-source.")
+        cons_print("DreamCode 3.0\n\nMemory usage: %f\n\nDreamCode isn`t related to the Scratch programming language.\nThis software is open-source.")
     end,
 
     ["help"] = function ()
-        cons_print("\nScratchCode 3.0 Console\n\n... - means that the argument count is unlimited.\n\nCommands:\n\nABOUT - Prints everything bout the current program\nECHO - Prints all of the arguments given to it. Arguments: ...\nHELP - Shows this. Arguments: None\nCLEAR - Clears the console. Arguments: None\nCOMPILE - Compiles code using the ScratchCode compiler. Arguments: filename, to\nRUN_CLASS - Runs a ScratchCode Class file. Arguments: filename\nDIR - Shows the contents of the current directory. Arguments: None\nCD - Moves to the directory you specified. Arguments: folder")
+        cons_print("DreamCode 3.0 Console\n\n... - means that the argument count is unlimited.\n\nCommands:\n\nABOUT - Prints everything bout the current program\nECHO - Prints all of the arguments given to it. Arguments: ...\nHELP - Shows this. Arguments: None\nCLEAR - Clears the console. Arguments: None\nCOMPILE - Compiles code using the DreamCode compiler. Arguments: filename, to\nRUN_CLASS - Runs a ScratchCode Class file. Arguments: filename\nDIR - Shows the contents of the current directory. Arguments: None\nCD - Moves to the directory you specified. Arguments: folder")
     end,
 
     ["credits"] = function ()
@@ -122,7 +122,7 @@ local commands = {
         if args[1] == "funcs" then
             cons_print("Running funcs demo...", false)
 
-            love.filesystem.write("demo_funcs.result", scr_code.compile({
+            love.filesystem.write("demo_funcs.result", dreamCode.compile({
                 "@func demo_Func",
                 "print 'Fiddlesticks... Now here comes the 256 characters string!  EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE'",
                 "warn 'Demo?'",
@@ -137,45 +137,45 @@ local commands = {
                 "DemoFunc2"
             }))
 
-            scr_code.createVM(love.filesystem.read("demo_funcs.result"))
+            dreamCode.createVM(love.filesystem.read("demo_funcs.result"))
         elseif args[1] == "math" then
             cons_print("Running math demo...", false)
 
-            love.filesystem.write("demo_math.result", scr_code.compile({
+            love.filesystem.write("demo_math.result", dreamCode.compile({
                 "Cookies = 12",
                 "ToTake = 4",
                 "Taken = Cookies - ToTake",
                 "print Taken"
             }))
 
-            scr_code.createVM(love.filesystem.read("demo_math.result"))
+            dreamCode.createVM(love.filesystem.read("demo_math.result"))
         elseif args[1] == "bool" then
             cons_print("Running bool demo...", false)
 
-            love.filesystem.write("demo_boolean.result", scr_code.compile({
+            love.filesystem.write("demo_boolean.result", dreamCode.compile({
                 "print true"
             }))
 
-            scr_code.createVM(love.filesystem.read("demo_boolean.result"))
+            dreamCode.createVM(love.filesystem.read("demo_boolean.result"))
         elseif args[1] == "error" then
             cons_print("Running error demo...", false)
 
-            love.filesystem.write("demo_error.result", scr_code.compile({
+            love.filesystem.write("demo_error.result", dreamCode.compile({
                 "error 12 / 2"
             }))
 
-            scr_code.createVM(love.filesystem.read("demo_error.result"))
+            dreamCode.createVM(love.filesystem.read("demo_error.result"))
         elseif args[1] == "check" then
             cons_print("Running check demo...", false)
 
-            love.filesystem.write("demo_check.result", scr_code.compile({
+            love.filesystem.write("demo_check.result", dreamCode.compile({
                 "hasTreats = false",
                 "@if hasTreats",
                 "print 'Imma steal ya treats.'",
                 "@end_if"
             }))
 
-            scr_code.createVM(love.filesystem.read("demo_check.result"))
+            dreamCode.createVM(love.filesystem.read("demo_check.result"))
         end
     end,
 
@@ -190,7 +190,7 @@ local commands = {
     ["compile"] = function (args)
         if not (args[1] and args[2]) then cons_print("[ERROR]: Not enough arguments! Need 2, got "..tostring(#args)) return nil end
 
-        cons_print("Compiling with header: SCC\nCompiling file: "..args[1], false)
+        cons_print("Compiling with header: DCC\nCompiling file: "..args[1], false)
 
         local file_exists = love.filesystem.getInfo("/"..current_dir..args[1])
 
@@ -205,7 +205,7 @@ local commands = {
                 end
             end
 
-            local success, result = pcall(scr_code.compile, processed_tbl)
+            local success, result = pcall(dreamCode.compile, processed_tbl)
 
             if success then
                 cons_print("Successfully compiled file!", true)
@@ -220,7 +220,7 @@ local commands = {
     ["run_class"] = function (args)
         if not args[1] then cons_print("[ERROR]: Not enough arguments! Need 1, got "..tostring(#args)) return nil end
 
-        local success, err = pcall(scr_code.createVM, love.filesystem.read("/"..current_dir..args[1]))
+        local success, err = pcall(dreamCode.createVM, love.filesystem.read("/"..current_dir..args[1]))
 
         cons_print("Trying to create a VM...")
 

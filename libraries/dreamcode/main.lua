@@ -1,4 +1,4 @@
-local file_header = "SCC" -- Change this to something you want!
+local file_header = "DCC" -- Change this to something you want!
 
 local opcodes = {
     ["print"] = 1,
@@ -278,11 +278,11 @@ function ScratchCode.createVM(data)
     local stack = 0
 
     if has_header then
-        local thread = love.thread.newThread("libraries/scratchcode/vm.lua")
+        local thread = love.thread.newThread("libraries/dreamcode/vm.lua")
 
         thread:start(data,file_header)
     else
-        print("Compiled file isn`t valid, or compiled for another ScratchCode fork or version")
+        print("Compiled file isn`t valid, or compiled for another DreamCode fork or version")
     end
 end
 
